@@ -1,21 +1,94 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-Br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checklist de Combate a Incêndio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checklist Interativo - Obra Hospitalar (Combate a Incêndio)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+    h2 { background-color: #d32f2f; color: white; padding: 10px; }
+    h3 { color: #d32f2f; margin-top: 20px; }
+    .checklist-item { display: flex; align-items: center; margin: 5px 0; }
+    .checklist-item input[type="checkbox"] { margin-right: 10px; transform: scale(1.3); }
+    .section { margin-bottom: 30px; }
+    button {
+      background-color: #388e3c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #2e7d32; }
+    #export-area { margin-top: 30px; }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Checklist de Comissionamento - Combate a Incêndio em Hospital</h1>
-        <div id="progress-bar-container">
-            <div id="progress-bar-fill"></div>
-            <span id="progress-text">0% Completo</span>
-        </div>
-        <div id="checklist-container"></div>
-    </div>
-    <script src="script.js"></script>
+  <h2>Checklist Interativo - Sistema de Combate a Incêndio em Hospital</h2>
+
+  <div class="section">
+    <h3>1. SISTEMAS DE PROTEÇÃO PASSIVA</h3>
+    <div class="checklist-item"><input type="checkbox"> Resistência ao fogo da estrutura conforme projeto</div>
+    <div class="checklist-item"><input type="checkbox"> Compartimentação horizontal e vertical adequada</div>
+    <div class="checklist-item"><input type="checkbox"> Selagem corta-fogo em shafts e dutos</div>
+    <div class="checklist-item"><input type="checkbox"> Portas corta-fogo com certificação adequada</div>
+  </div>
+
+  <div class="section">
+    <h3>2. SISTEMAS DE PROTEÇÃO ATIVA</h3>
+    <div class="checklist-item"><input type="checkbox"> Detectores de fumaça e temperatura funcionando</div>
+    <div class="checklist-item"><input type="checkbox"> Sirenes e botoeiras posicionadas</div>
+    <div class="checklist-item"><input type="checkbox"> Sistema de sprinklers testado</div>
+    <div class="checklist-item"><input type="checkbox"> Sistema de hidrantes completo e acessível</div>
+  </div>
+
+  <div class="section">
+    <h3>3. SISTEMAS DE CONTROLE DE FUMAÇA</h3>
+    <div class="checklist-item"><input type="checkbox"> Ventiladores de pressurização funcionando</div>
+    <div class="checklist-item"><input type="checkbox"> Exaustores em locais amplos</div>
+  </div>
+
+  <div class="section">
+    <h3>4. SISTEMAS COMPLEMENTARES</h3>
+    <div class="checklist-item"><input type="checkbox"> Gerador de emergência com autonomia</div>
+    <div class="checklist-item"><input type="checkbox"> Elevador de bombeiros funcional</div>
+  </div>
+
+  <div class="section">
+    <h3>5. DOCUMENTOS & TREINAMENTOS</h3>
+    <div class="checklist-item"><input type="checkbox"> Projeto aprovado pelo Corpo de Bombeiros</div>
+    <div class="checklist-item"><input type="checkbox"> ARTs, Laudos e Relatórios de Testes</div>
+    <div class="checklist-item"><input type="checkbox"> Equipe treinada e simulados realizados</div>
+  </div>
+
+  <button onclick="exportChecklist()">Exportar Checklist</button>
+  <div id="export-area">
+    <textarea id="checklist-result" placeholder="O resumo aparecerá aqui após exportar..."></textarea>
+  </div>
+
+  <script>
+    function exportChecklist() {
+      const items = document.querySelectorAll('.checklist-item');
+      let result = 'RESULTADO DO CHECKLIST:\n\n';
+
+      items.forEach((item, index) => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const label = item.textContent.trim();
+        const status = checkbox.checked ? '[X]' : '[ ]';
+        result += `${status} ${label}\n`;
+      });
+
+      document.getElementById('checklist-result').value = result;
+    }
+  </script>
 </body>
 </html>
+
 
