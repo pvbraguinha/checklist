@@ -68,13 +68,20 @@
             font-weight: bold;
         }
         
-        input[type="text"],
+        select, input[type="text"],
         input[type="date"] {
             width: 100%;
             padding: 10px;
             border: 1px solid var(--medium-gray);
             border-radius: 4px;
             font-size: 16px;
+        }
+        
+        .location-selectors {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
         .checklist-container {
@@ -263,11 +270,25 @@
             background-color: #27ae60;
         }
         
-       .status-indicator {
-    display: none !important;
-}
+        .status-indicator {
+            display: none !important;
+        }
+        
+        .current-location {
+            background-color: var(--warning-color);
+            color: var(--white);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
         
         @media (max-width: 768px) {
+            .location-selectors {
+                grid-template-columns: 1fr;
+            }
+            
             .buttons-container {
                 flex-direction: column;
             }
@@ -317,6 +338,33 @@
             </div>
         </div>
         
+        <div class="location-selectors">
+            <div class="form-group">
+                <label for="pavimento">Selecione o Pavimento:</label>
+                <select id="pavimento">
+                    <option value="">Selecione um pavimento</option>
+                    <option value="terreo">Pavimento Térreo</option>
+                    <option value="pav1">1° Pavimento</option>
+                    <option value="pav_tecnico">Pavimento Técnico</option>
+                    <option value="pav2">2° Pavimento</option>
+                    <option value="pav3">3° Pavimento</option>
+                    <option value="pav4">4° Pavimento</option>
+                    <option value="pav5">5° Pavimento</option>
+                    <option value="pav6">6° Pavimento</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bloco">Selecione o Bloco:</label>
+                <select id="bloco" disabled>
+                    <option value="">Selecione um pavimento primeiro</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="current-location" id="current-location">
+            Selecione um pavimento e bloco para começar
+        </div>
+        
         <div class="progress-container">
             <h3>Progresso do Checklist</h3>
             <div class="progress-bar">
@@ -325,815 +373,1016 @@
             <div class="progress-text" id="progress-text">0% Completo</div>
         </div>
         
-        <div class="checklist-container">
-            <!-- 1. SISTEMAS DE PROTEÇÃO PASSIVA -->
-            <div class="category">
-                <div class="category-header">1. SISTEMAS DE PROTEÇÃO PASSIVA</div>
-                <div class="items-container">
-                    <!-- 1.1 Estrutura e Compartimentação -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">1.1 Estrutura e Compartimentação</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-1-1">
-                                <label for="passiva-1-1">Resistência ao fogo da estrutura conforme projeto (pilares, vigas, lajes)</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-1-2">
-                                <label for="passiva-1-2">Compartimentação horizontal adequada por pavimento</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-1-3">
-                                <label for="passiva-1-3">Compartimentação vertical entre andares</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-1-4">
-                                <label for="passiva-1-4">Integridade das paredes corta-fogo</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-1-5">
-                                <label for="passiva-1-5">Vedação de passagens de tubulações e cabos através de elementos estruturais</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-1-6">
-                                <label for="passiva-1-6">Selagem corta-fogo em shafts e dutos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-1-7">
-                                <label for="passiva-1-7">Verificação de TRF (Tempo de Resistência ao Fogo) de todos os elementos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 1.2 Portas e Aberturas -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">1.2 Portas e Aberturas</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-2-1">
-                                <label for="passiva-2-1">Portas corta-fogo com certificação adequada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-2-2">
-                                <label for="passiva-2-2">Funcionamento correto de fechaduras antipânico</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-2-3">
-                                <label for="passiva-2-3">Molas de retorno das portas corta-fogo</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-2-4">
-                                <label for="passiva-2-4">Vedação adequada das portas (batente, soleira, laterais)</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-2-5">
-                                <label for="passiva-2-5">Sinalização de emergência nas portas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-2-6">
-                                <label for="passiva-2-6">Portas de escape nos locais exigidos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-2-7">
-                                <label for="passiva-2-7">Dimensionamento adequado das saídas de emergência</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 1.3 Revestimentos e Acabamentos -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">1.3 Revestimentos e Acabamentos</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-3-1">
-                                <label for="passiva-3-1">Classificação de reação ao fogo dos materiais de acabamento</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-3-2">
-                                <label for="passiva-3-2">Revestimentos em rotas de fuga conforme norma</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-3-3">
-                                <label for="passiva-3-3">Materiais isolantes térmicos adequados</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="passiva-3-4">
-                                <label for="passiva-3-4">Verificação de materiais em áreas críticas (UTI, centro cirúrgico)</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 2. SISTEMAS DE PROTEÇÃO ATIVA -->
-            <div class="category">
-                <div class="category-header">2. SISTEMAS DE PROTEÇÃO ATIVA</div>
-                <div class="items-container">
-                    <!-- 2.1 Sistema de Detecção e Alarme de Incêndio -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">2.1 Sistema de Detecção e Alarme de Incêndio</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-1">
-                                <label for="ativa-1-1">Central de alarme instalada e programada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-2">
-                                <label for="ativa-1-2">Detectores de fumaça em todos os ambientes exigidos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-3">
-                                <label for="ativa-1-3">Detectores de temperatura em locais específicos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-4">
-                                <label for="ativa-1-4">Detectores de chama em áreas de risco</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-5">
-                                <label for="ativa-1-5">Acionadores manuais (botoeiras) posicionados adequadamente</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-6">
-                                <label for="ativa-1-6">Sirenes e sinalizadores audiovisuais funcionando</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-7">
-                                <label for="ativa-1-7">Teste de funcionamento de todos os detectores</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-8">
-                                <label for="ativa-1-8">Verificação de zonas de detecção conforme projeto</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-9">
-                                <label for="ativa-1-9">Integração com sistema de automação predial</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-10">
-                                <label for="ativa-1-10">Supervisão remota operacional</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-1-11">
-                                <label for="ativa-1-11">Fonte de alimentação principal e backup (baterias/gerador)</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 2.2 Sistema de Iluminação de Emergência -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">2.2 Sistema de Iluminação de Emergência</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-2-1">
-                                <label for="ativa-2-1">Luminárias de emergência em todas as rotas de fuga</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-2-2">
-                                <label for="ativa-2-2">Blocos autônomos com autonomia mínima de 1 hora</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-2-3">
-                                <label for="ativa-2-3">Sinalização fotoluminescente adequada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-2-4">
-                                <label for="ativa-2-4">Teste de autonomia das baterias</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-2-5">
-                                <label for="ativa-2-5">Funcionamento automático em caso de falta de energia</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-2-6">
-                                <label for="ativa-2-6">Níveis de iluminamento conforme norma</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-2-7">
-                                <label for="ativa-2-7">Sinalização de saídas de emergência</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 2.3 Sistema de Sprinklers -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">2.3 Sistema de Sprinklers</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-1">
-                                <label for="ativa-3-1">Reservatório de incêndio com capacidade adequada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-2">
-                                <label for="ativa-3-2">Bombas de incêndio principal e reserva (jockey)</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-3">
-                                <label for="ativa-3-3">Rede de distribuição dimensionada conforme projeto</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-4">
-                                <label for="ativa-3-4">Sprinklers instalados conforme espaçamento e cobertura</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-5">
-                                <label for="ativa-3-5">Válvulas de governo e controle</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-6">
-                                <label for="ativa-3-6">Manômetros e pressostatos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-7">
-                                <label for="ativa-3-7">Teste hidrostático da tubulação</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-8">
-                                <label for="ativa-3-8">Teste de vazão e pressão</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-9">
-                                <label for="ativa-3-9">Drenagem adequada do sistema</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-3-10">
-                                <label for="ativa-3-10">Supervisão elétrica de válvulas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 2.4 Sistema de Hidrantes -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">2.4 Sistema de Hidrantes</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-1">
-                                <label for="ativa-4-1">Hidrantes externos (urbanos) posicionados adequadamente</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-2">
-                                <label for="ativa-4-2">Hidrantes internos em todos os pavimentos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-3">
-                                <label for="ativa-4-3">Mangueiras de incêndio adequadas e testadas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-4">
-                                <label for="ativa-4-4">Esguichos reguláveis instalados</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-5">
-                                <label for="ativa-4-5">Chaves para hidrantes disponíveis</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-6">
-                                <label for="ativa-4-6">Sinalização dos hidrantes</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-7">
-                                <label for="ativa-4-7">Teste de vazão e pressão</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-4-8">
-                                <label for="ativa-4-8">Acessibilidade aos hidrantes</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 2.5 Sistema de Gases Limpos/CO2 -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">2.5 Sistema de Gases Limpos/CO2</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-1">
-                                <label for="ativa-5-1">Central de gases em ambientes específicos (CPD, arquivo)</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-2">
-                                <label for="ativa-5-2">Cilindros de gás com carga adequada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-3">
-                                <label for="ativa-5-3">Difusores posicionados conforme projeto</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-4">
-                                <label for="ativa-5-4">Sistema de detecção específico para liberação</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-5">
-                                <label for="ativa-5-5">Sinalização de abandono de área</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-6">
-                                <label for="ativa-5-6">Temporizadores de retardo</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-7">
-                                <label for="ativa-5-7">Válvulas de alívio de pressão</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="ativa-5-8">
-                                <label for="ativa-5-8">Testes de estanqueidade dos ambientes</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 3. SISTEMAS DE CONTROLE DE FUMAÇA -->
-            <div class="category">
-                <div class="category-header">3. SISTEMAS DE CONTROLE DE FUMAÇA</div>
-                <div class="items-container">
-                    <!-- 3.1 Pressurização de Escadas -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">3.1 Pressurização de Escadas</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-1-1">
-                                <label for="fumaca-1-1">Ventiladores de pressurização instalados</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-1-2">
-                                <label for="fumaca-1-2">Dampers corta-fogo automáticos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-1-3">
-                                <label for="fumaca-1-3">Grelhas de admissão de ar</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-1-4">
-                                <label for="fumaca-1-4">Controle de pressão diferencial</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-1-5">
-                                <label for="fumaca-1-5">Teste de funcionamento do sistema</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-1-6">
-                                <label for="fumaca-1-6">Medição de velocidade do ar nas aberturas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-1-7">
-                                <label for="fumaca-1-7">Integração com sistema de detecção</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 3.2 Exaustão de Fumaça -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">3.2 Exaustão de Fumaça</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-2-1">
-                                <label for="fumaca-2-1">Exaustores de fumaça em átrios e areas amplas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-2-2">
-                                <label for="fumaca-2-2">Aberturas de alívio dimensionadas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-2-3">
-                                <label for="fumaca-2-3">Controle automático de acionamento</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-2-4">
-                                <label for="fumaca-2-4">Resistência ao fogo dos equipamentos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="fumaca-2-5">
-                                <label for="fumaca-2-5">Teste de funcionamento</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 4. INSTALAÇÕES COMPLEMENTARES -->
-            <div class="category">
-                <div class="category-header">4. INSTALAÇÕES COMPLEMENTARES</div>
-                <div class="items-container">
-                    <!-- 4.1 Energia de Emergência -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">4.1 Energia de Emergência</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-1-1">
-                                <label for="complementares-1-1">Gerador de emergência com capacidade adequada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-1-2">
-                                <label for="complementares-1-2">Quadros elétricos de emergência</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-1-3">
-                                <label for="complementares-1-3">Transferência automática funcionando</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-1-4">
-                                <label for="complementares-1-4">Combustível suficiente para autonomia mínima</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-1-5">
-                                <label for="complementares-1-5">Teste de funcionamento sob carga</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 4.2 Elevadores de Emergência -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">4.2 Elevadores de Emergência</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-2-1">
-                                <label for="complementares-2-1">Elevador de bombeiros instalado e funcionando</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-2-2">
-                                <label for="complementares-2-2">Chave de comando dos bombeiros</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-2-3">
-                                <label for="complementares-2-3">Comunicação de emergência no elevador</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-2-4">
-                                <label for="complementares-2-4">Fonte de energia independente</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="complementares-2-5">
-                                <label for="complementares-2-5">Acesso adequado ao pavimento térreo</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 5. DOCUMENTAÇÃO E CERTIFICAÇÕES -->
-            <div class="category">
-                <div class="category-header">5. DOCUMENTAÇÃO E CERTIFICAÇÕES</div>
-                <div class="items-container">
-                    <!-- 5.1 Documentos Técnicos -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">5.1 Documentos Técnicos</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-1-1">
-                                <label for="documentos-1-1">Projeto técnico aprovado pelo Corpo de Bombeiros</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-1-2">
-                                <label for="documentos-1-2">ART (Anotação de Responsabilidade Técnica) dos sistemas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-1-3">
-                                <label for="documentos-1-3">Certificados de conformidade dos equipamentos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-1-4">
-                                <label for="documentos-1-4">Laudos de testes hidrostáticos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-1-5">
-                                <label for="documentos-1-5">Relatórios de comissionamento</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-1-6">
-                                <label for="documentos-1-6">Manual de operação e manutenção</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-1-7">
-                                <label for="documentos-1-7">Cronograma de manutenções preventivas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 5.2 Treinamentos -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">5.2 Treinamentos</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-2-1">
-                                <label for="documentos-2-1">Treinamento da equipe de manutenção</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-2-2">
-                                <label for="documentos-2-2">Treinamento da brigada de incêndio</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-2-3">
-                                <label for="documentos-2-3">Manual de procedimentos de emergência</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="documentos-2-4">
-                                <label for="documentos-2-4">Simulados de evacuação realizados</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 6. VERIFICAÇÕES ESPECÍFICAS PARA HOSPITAIS -->
-            <div class="category">
-                <div class="category-header">6. VERIFICAÇÕES ESPECÍFICAS PARA HOSPITAIS</div>
-                <div class="items-container">
-                    <!-- 6.1 Áreas Críticas -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">6.1 Áreas Críticas</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-1-1">
-                                <label for="hospitais-1-1">UTI com sistema de detecção específico</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-1-2">
-                                <label for="hospitais-1-2">Centro cirúrgico com proteção adequada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-1-3">
-                                <label for="hospitais-1-3">Farmácia com sistema específico para medicamentos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-1-4">
-                                <label for="hospitais-1-4">Lavanderia com detecção e supressão adequada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-1-5">
-                                <label for="hospitais-1-5">Cozinha com sistema de supressão em coifas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-1-6">
-                                <label for="hospitais-1-6">Depósitos de gases medicinais protegidos</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-1-7">
-                                <label for="hospitais-1-7">Geradores de oxigênio com proteção específica</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 6.2 Evacuação Hospitalar -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">6.2 Evacuação Hospitalar</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-2-1">
-                                <label for="hospitais-2-1">Macas de evacuação disponíveis</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-2-2">
-                                <label for="hospitais-2-2">Áreas de refúgio dimensionadas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-2-3">
-                                <label for="hospitais-2-3">Elevadores de emergência para pacientes</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-2-4">
-                                <label for="hospitais-2-4">Comunicação visual e sonora diferenciada</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-2-5">
-                                <label for="hospitais-2-5">Rotas de evacuação para pacientes acamados</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="hospitais-2-6">
-                                <label for="hospitais-2-6">Sistema de comunicação de emergência</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- 7. TESTES FINAIS E ACEITE -->
-            <div class="category">
-                <div class="category-header">7. TESTES FINAIS E ACEITE</div>
-                <div class="items-container">
-                    <!-- 7.1 Testes Integrados -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">7.1 Testes Integrados</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-1-1">
-                                <label for="testes-1-1">Teste geral de todos os sistemas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-1-2">
-                                <label for="testes-1-2">Simulação de situações de emergência</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-1-3">
-                                <label for="testes-1-3">Verificação de integração entre sistemas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-1-4">
-                                <label for="testes-1-4">Teste de comunicação com Corpo de Bombeiros</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-1-5">
-                                <label for="testes-1-5">Medição de tempos de resposta</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 7.2 Aceite Final -->
-                    <div class="subcategory">
-                        <div class="subcategory-header">7.2 Aceite Final</div>
-                        <div class="items-container">
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-2-1">
-                                <label for="testes-2-1">Vistoria final do Corpo de Bombeiros</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-2-2">
-                                <label for="testes-2-2">Emissão do Auto de Vistoria do Corpo de Bombeiros (AVCB)</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-2-3">
-                                <label for="testes-2-3">Entrega de toda documentação</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-2-4">
-                                <label for="testes-2-4">Termo de aceite assinado</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                            <div class="checklist-item">
-                                <input type="checkbox" id="testes-2-5">
-                                <label for="testes-2-5">Garantias dos equipamentos ativadas</label>
-                                <textarea placeholder="Observações..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="checklist-container" id="checklist-container">
+            <!-- O checklist será carregado dinamicamente aqui -->
+            <div style="padding: 20px; text-align: center; color: #666;">
+                Selecione um pavimento e bloco para visualizar o checklist
             </div>
         </div>
         
         <div class="buttons-container">
-            <button class="btn-secondary" id="reset-btn">Limpar Checklist</button>
-            <button class="btn-success" id="export-btn">Exportar Relatório</button>
+            <button class="btn-secondary" id="reset-btn">Limpar Checklist Atual</button>
+            <button class="btn-success" id="export-btn">Exportar Relatório Completo</button>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Configuração dos acordeões
-            const categoryHeaders = document.querySelectorAll('.category-header');
-            const subcategoryHeaders = document.querySelectorAll('.subcategory-header');
+            // Dados dos blocos por pavimento
+            const pavimentos = {
+                terreo: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8'],
+                pav1: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8'],
+                pav_tecnico: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8'],
+                pav2: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8'],
+                pav3: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8'],
+                pav4: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8'],
+                pav5: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8'],
+                pav6: ['Bloco 1', 'Bloco 2', 'Bloco 3', 'Bloco 4', 'Bloco 5', 'Bloco 6', 'Bloco 7', 'Bloco 8']
+            };
             
-            categoryHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const itemsContainer = this.nextElementSibling;
-                    itemsContainer.classList.toggle('active');
+            // Nomes completos dos pavimentos
+            const pavimentoNomes = {
+                terreo: 'Pavimento Térreo',
+                pav1: '1° Pavimento',
+                pav_tecnico: 'Pavimento Técnico',
+                pav2: '2° Pavimento',
+                pav3: '3° Pavimento',
+                pav4: '4° Pavimento',
+                pav5: '5° Pavimento',
+                pav6: '6° Pavimento'
+            };
+            
+            // Armazenamento de todos os dados do checklist
+            const checklistData = {};
+            
+            // Elementos do DOM
+            const pavimentoSelect = document.getElementById('pavimento');
+            const blocoSelect = document.getElementById('bloco');
+            const currentLocation = document.getElementById('current-location');
+            const checklistContainer = document.getElementById('checklist-container');
+            
+            // Configura a data atual como padrão
+            const today = new Date();
+            const formattedDate = today.toISOString().substr(0, 10);
+            document.getElementById('inspection-date').value = formattedDate;
+            
+            // Evento de mudança no seletor de pavimento
+            pavimentoSelect.addEventListener('change', function() {
+                const selectedPavimento = this.value;
+                
+                if (selectedPavimento) {
+                    // Ativa o seletor de bloco
+                    blocoSelect.disabled = false;
+                    blocoSelect.innerHTML = '<option value="">Selecione um bloco</option>';
                     
-                    // Atualiza o progresso quando uma categoria é aberta/fechada
-                    updateProgress();
-                });
+                    // Preenche os blocos do pavimento selecionado
+                    pavimentos[selectedPavimento].forEach((bloco, index) => {
+                        const option = document.createElement('option');
+                        option.value = `bloco${index + 1}`;
+                        option.textContent = bloco;
+                        blocoSelect.appendChild(option);
+                    });
+                    
+                    // Atualiza a localização atual
+                    currentLocation.textContent = `Pavimento: ${pavimentoNomes[selectedPavimento]} - Selecione um bloco`;
+                } else {
+                    // Desativa o seletor de bloco se nenhum pavimento estiver selecionado
+                    blocoSelect.disabled = true;
+                    blocoSelect.innerHTML = '<option value="">Selecione um pavimento primeiro</option>';
+                    currentLocation.textContent = 'Selecione um pavimento e bloco para começar';
+                    checklistContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">Selecione um pavimento e bloco para visualizar o checklist</div>';
+                }
             });
             
-            subcategoryHeaders.forEach(header => {
-                header.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const itemsContainer = this.nextElementSibling;
-                    itemsContainer.classList.toggle('active');
-                });
+            // Evento de mudança no seletor de bloco
+            blocoSelect.addEventListener('change', function() {
+                const selectedPavimento = pavimentoSelect.value;
+                const selectedBloco = this.value;
+                
+                if (selectedPavimento && selectedBloco) {
+                    // Atualiza a localização atual
+                    const blocoNome = this.options[this.selectedIndex].text;
+                    currentLocation.textContent = `Pavimento: ${pavimentoNomes[selectedPavimento]} - Bloco: ${blocoNome}`;
+                    
+                    // Carrega ou cria o checklist para este bloco
+                    loadChecklistForLocation(selectedPavimento, selectedBloco);
+                }
             });
             
-            // Configuração dos checkboxes para atualizar o progresso
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateProgress);
-            });
+            // Função para carregar o checklist para um bloco específico
+            function loadChecklistForLocation(pavimento, bloco) {
+                const locationKey = `${pavimento}_${bloco}`;
+                
+                // Se já existir dados para esta localização, apenas exibe
+                if (checklistData[locationKey]) {
+                    renderChecklist(checklistData[locationKey].html);
+                    restoreChecklistState(locationKey);
+                } else {
+                    // Cria um novo checklist para esta localização
+                    const checklistHTML = generateChecklistHTML();
+                    checklistData[locationKey] = {
+                        html: checklistHTML,
+                        checkboxes: {},
+                        textareas: {}
+                    };
+                    
+                    // Renderiza o checklist
+                    renderChecklist(checklistHTML);
+                    
+                    // Configura os eventos após o checklist ser renderizado
+                    setupChecklistEvents(locationKey);
+                }
+                
+                // Atualiza o progresso
+                updateProgress();
+            }
+            
+            // Função para gerar o HTML do checklist (igual ao original)
+            function generateChecklistHTML() {
+                return `
+                    <!-- 1. SISTEMAS DE PROTEÇÃO PASSIVA -->
+                    <div class="category">
+                        <div class="category-header">1. SISTEMAS DE PROTEÇÃO PASSIVA</div>
+                        <div class="items-container">
+                            <!-- 1.1 Estrutura e Compartimentação -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">1.1 Estrutura e Compartimentação</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-1-1">
+                                        <label for="passiva-1-1">Resistência ao fogo da estrutura conforme projeto (pilares, vigas, lajes)</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-1-2">
+                                        <label for="passiva-1-2">Compartimentação horizontal adequada por pavimento</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-1-3">
+                                        <label for="passiva-1-3">Compartimentação vertical entre andares</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-1-4">
+                                        <label for="passiva-1-4">Integridade das paredes corta-fogo</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-1-5">
+                                        <label for="passiva-1-5">Vedação de passagens de tubulações e cabos através de elementos estruturais</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-1-6">
+                                        <label for="passiva-1-6">Selagem corta-fogo em shafts e dutos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-1-7">
+                                        <label for="passiva-1-7">Verificação de TRF (Tempo de Resistência ao Fogo) de todos os elementos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 1.2 Portas e Aberturas -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">1.2 Portas e Aberturas</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-2-1">
+                                        <label for="passiva-2-1">Portas corta-fogo com certificação adequada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-2-2">
+                                        <label for="passiva-2-2">Funcionamento correto de fechaduras antipânico</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-2-3">
+                                        <label for="passiva-2-3">Molas de retorno das portas corta-fogo</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-2-4">
+                                        <label for="passiva-2-4">Vedação adequada das portas (batente, soleira, laterais)</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-2-5">
+                                        <label for="passiva-2-5">Sinalização de emergência nas portas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-2-6">
+                                        <label for="passiva-2-6">Portas de escape nos locais exigidos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-2-7">
+                                        <label for="passiva-2-7">Dimensionamento adequado das saídas de emergência</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 1.3 Revestimentos e Acabamentos -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">1.3 Revestimentos e Acabamentos</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-3-1">
+                                        <label for="passiva-3-1">Classificação de reação ao fogo dos materiais de acabamento</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-3-2">
+                                        <label for="passiva-3-2">Revestimentos em rotas de fuga conforme norma</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-3-3">
+                                        <label for="passiva-3-3">Materiais isolantes térmicos adequados</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="passiva-3-4">
+                                        <label for="passiva-3-4">Verificação de materiais em áreas críticas (UTI, centro cirúrgico)</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2. SISTEMAS DE PROTEÇÃO ATIVA -->
+                    <div class="category">
+                        <div class="category-header">2. SISTEMAS DE PROTEÇÃO ATIVA</div>
+                        <div class="items-container">
+                            <!-- 2.1 Sistema de Detecção e Alarme de Incêndio -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">2.1 Sistema de Detecção e Alarme de Incêndio</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-1">
+                                        <label for="ativa-1-1">Central de alarme instalada e programada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-2">
+                                        <label for="ativa-1-2">Detectores de fumaça em todos os ambientes exigidos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-3">
+                                        <label for="ativa-1-3">Detectores de temperatura em locais específicos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-4">
+                                        <label for="ativa-1-4">Detectores de chama em áreas de risco</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-5">
+                                        <label for="ativa-1-5">Acionadores manuais (botoeiras) posicionados adequadamente</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-6">
+                                        <label for="ativa-1-6">Sirenes e sinalizadores audiovisuais funcionando</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-7">
+                                        <label for="ativa-1-7">Teste de funcionamento de todos os detectores</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-8">
+                                        <label for="ativa-1-8">Verificação de zonas de detecção conforme projeto</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-9">
+                                        <label for="ativa-1-9">Integração com sistema de automação predial</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-10">
+                                        <label for="ativa-1-10">Supervisão remota operacional</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-1-11">
+                                        <label for="ativa-1-11">Fonte de alimentação principal e backup (baterias/gerador)</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 2.2 Sistema de Iluminação de Emergência -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">2.2 Sistema de Iluminação de Emergência</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-2-1">
+                                        <label for="ativa-2-1">Luminárias de emergência em todas as rotas de fuga</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-2-2">
+                                        <label for="ativa-2-2">Blocos autônomos com autonomia mínima de 1 hora</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-2-3">
+                                        <label for="ativa-2-3">Sinalização fotoluminescente adequada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-2-4">
+                                        <label for="ativa-2-4">Teste de autonomia das baterias</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-2-5">
+                                        <label for="ativa-2-5">Funcionamento automático em caso de falta de energia</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-2-6">
+                                        <label for="ativa-2-6">Níveis de iluminamento conforme norma</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-2-7">
+                                        <label for="ativa-2-7">Sinalização de saídas de emergência</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 2.3 Sistema de Sprinklers -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">2.3 Sistema de Sprinklers</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-1">
+                                        <label for="ativa-3-1">Reservatório de incêndio com capacidade adequada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-2">
+                                        <label for="ativa-3-2">Bombas de incêndio principal e reserva (jockey)</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-3">
+                                        <label for="ativa-3-3">Rede de distribuição dimensionada conforme projeto</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-4">
+                                        <label for="ativa-3-4">Sprinklers instalados conforme espaçamento e cobertura</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-5">
+                                        <label for="ativa-3-5">Válvulas de governo e controle</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-6">
+                                        <label for="ativa-3-6">Manômetros e pressostatos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-7">
+                                        <label for="ativa-3-7">Teste hidrostático da tubulação</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-8">
+                                        <label for="ativa-3-8">Teste de vazão e pressão</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-9">
+                                        <label for="ativa-3-9">Drenagem adequada do sistema</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-3-10">
+                                        <label for="ativa-3-10">Supervisão elétrica de válvulas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 2.4 Sistema de Hidrantes -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">2.4 Sistema de Hidrantes</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-1">
+                                        <label for="ativa-4-1">Hidrantes externos (urbanos) posicionados adequadamente</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-2">
+                                        <label for="ativa-4-2">Hidrantes internos em todos os pavimentos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-3">
+                                        <label for="ativa-4-3">Mangueiras de incêndio adequadas e testadas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-4">
+                                        <label for="ativa-4-4">Esguichos reguláveis instalados</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-5">
+                                        <label for="ativa-4-5">Chaves para hidrantes disponíveis</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-6">
+                                        <label for="ativa-4-6">Sinalização dos hidrantes</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-7">
+                                        <label for="ativa-4-7">Teste de vazão e pressão</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-4-8">
+                                        <label for="ativa-4-8">Acessibilidade aos hidrantes</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 2.5 Sistema de Gases Limpos/CO2 -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">2.5 Sistema de Gases Limpos/CO2</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-1">
+                                        <label for="ativa-5-1">Central de gases em ambientes específicos (CPD, arquivo)</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-2">
+                                        <label for="ativa-5-2">Cilindros de gás com carga adequada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-3">
+                                        <label for="ativa-5-3">Difusores posicionados conforme projeto</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-4">
+                                        <label for="ativa-5-4">Sistema de detecção específico para liberação</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-5">
+                                        <label for="ativa-5-5">Sinalização de abandono de área</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-6">
+                                        <label for="ativa-5-6">Temporizadores de retardo</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-7">
+                                        <label for="ativa-5-7">Válvulas de alívio de pressão</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="ativa-5-8">
+                                        <label for="ativa-5-8">Testes de estanqueidade dos ambientes</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3. SISTEMAS DE CONTROLE DE FUMAÇA -->
+                    <div class="category">
+                        <div class="category-header">3. SISTEMAS DE CONTROLE DE FUMAÇA</div>
+                        <div class="items-container">
+                            <!-- 3.1 Pressurização de Escadas -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">3.1 Pressurização de Escadas</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-1-1">
+                                        <label for="fumaca-1-1">Ventiladores de pressurização instalados</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-1-2">
+                                        <label for="fumaca-1-2">Dampers corta-fogo automáticos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-1-3">
+                                        <label for="fumaca-1-3">Grelhas de admissão de ar</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-1-4">
+                                        <label for="fumaca-1-4">Controle de pressão diferencial</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-1-5">
+                                        <label for="fumaca-1-5">Teste de funcionamento do sistema</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-1-6">
+                                        <label for="fumaca-1-6">Medição de velocidade do ar nas aberturas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-1-7">
+                                        <label for="fumaca-1-7">Integração com sistema de detecção</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 3.2 Exaustão de Fumaça -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">3.2 Exaustão de Fumaça</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-2-1">
+                                        <label for="fumaca-2-1">Exaustores de fumaça em átrios e areas amplas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-2-2">
+                                        <label for="fumaca-2-2">Aberturas de alívio dimensionadas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-2-3">
+                                        <label for="fumaca-2-3">Controle automático de acionamento</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-2-4">
+                                        <label for="fumaca-2-4">Resistência ao fogo dos equipamentos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="fumaca-2-5">
+                                        <label for="fumaca-2-5">Teste de funcionamento</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 4. INSTALAÇÕES COMPLEMENTARES -->
+                    <div class="category">
+                        <div class="category-header">4. INSTALAÇÕES COMPLEMENTARES</div>
+                        <div class="items-container">
+                            <!-- 4.1 Energia de Emergência -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">4.1 Energia de Emergência</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-1-1">
+                                        <label for="complementares-1-1">Gerador de emergência com capacidade adequada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-1-2">
+                                        <label for="complementares-1-2">Quadros elétricos de emergência</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-1-3">
+                                        <label for="complementares-1-3">Transferência automática funcionando</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-1-4">
+                                        <label for="complementares-1-4">Combustível suficiente para autonomia mínima</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-1-5">
+                                        <label for="complementares-1-5">Teste de funcionamento sob carga</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 4.2 Elevadores de Emergência -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">4.2 Elevadores de Emergência</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-2-1">
+                                        <label for="complementares-2-1">Elevador de bombeiros instalado e funcionando</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-2-2">
+                                        <label for="complementares-2-2">Chave de comando dos bombeiros</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-2-3">
+                                        <label for="complementares-2-3">Comunicação de emergência no elevador</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-2-4">
+                                        <label for="complementares-2-4">Fonte de energia independente</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="complementares-2-5">
+                                        <label for="complementares-2-5">Acesso adequado ao pavimento térreo</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 5. DOCUMENTAÇÃO E CERTIFICAÇÕES -->
+                    <div class="category">
+                        <div class="category-header">5. DOCUMENTAÇÃO E CERTIFICAÇÕES</div>
+                        <div class="items-container">
+                            <!-- 5.1 Documentos Técnicos -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">5.1 Documentos Técnicos</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-1-1">
+                                        <label for="documentos-1-1">Projeto técnico aprovado pelo Corpo de Bombeiros</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-1-2">
+                                        <label for="documentos-1-2">ART (Anotação de Responsabilidade Técnica) dos sistemas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-1-3">
+                                        <label for="documentos-1-3">Certificados de conformidade dos equipamentos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-1-4">
+                                        <label for="documentos-1-4">Laudos de testes hidrostáticos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-1-5">
+                                        <label for="documentos-1-5">Relatórios de comissionamento</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-1-6">
+                                        <label for="documentos-1-6">Manual de operação e manutenção</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-1-7">
+                                        <label for="documentos-1-7">Cronograma de manutenções preventivas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 5.2 Treinamentos -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">5.2 Treinamentos</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-2-1">
+                                        <label for="documentos-2-1">Treinamento da equipe de manutenção</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-2-2">
+                                        <label for="documentos-2-2">Treinamento da brigada de incêndio</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-2-3">
+                                        <label for="documentos-2-3">Manual de procedimentos de emergência</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="documentos-2-4">
+                                        <label for="documentos-2-4">Simulados de evacuação realizados</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 6. VERIFICAÇÕES ESPECÍFICAS PARA HOSPITAIS -->
+                    <div class="category">
+                        <div class="category-header">6. VERIFICAÇÕES ESPECÍFICAS PARA HOSPITAIS</div>
+                        <div class="items-container">
+                            <!-- 6.1 Áreas Críticas -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">6.1 Áreas Críticas</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-1-1">
+                                        <label for="hospitais-1-1">UTI com sistema de detecção específico</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-1-2">
+                                        <label for="hospitais-1-2">Centro cirúrgico com proteção adequada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-1-3">
+                                        <label for="hospitais-1-3">Farmácia com sistema específico para medicamentos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-1-4">
+                                        <label for="hospitais-1-4">Lavanderia com detecção e supressão adequada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-1-5">
+                                        <label for="hospitais-1-5">Cozinha com sistema de supressão em coifas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-1-6">
+                                        <label for="hospitais-1-6">Depósitos de gases medicinais protegidos</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-1-7">
+                                        <label for="hospitais-1-7">Geradores de oxigênio com proteção específica</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 6.2 Evacuação Hospitalar -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">6.2 Evacuação Hospitalar</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-2-1">
+                                        <label for="hospitais-2-1">Macas de evacuação disponíveis</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-2-2">
+                                        <label for="hospitais-2-2">Áreas de refúgio dimensionadas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-2-3">
+                                        <label for="hospitais-2-3">Elevadores de emergência para pacientes</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-2-4">
+                                        <label for="hospitais-2-4">Comunicação visual e sonora diferenciada</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-2-5">
+                                        <label for="hospitais-2-5">Rotas de evacuação para pacientes acamados</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="hospitais-2-6">
+                                        <label for="hospitais-2-6">Sistema de comunicação de emergência</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 7. TESTES FINAIS E ACEITE -->
+                    <div class="category">
+                        <div class="category-header">7. TESTES FINAIS E ACEITE</div>
+                        <div class="items-container">
+                            <!-- 7.1 Testes Integrados -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">7.1 Testes Integrados</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-1-1">
+                                        <label for="testes-1-1">Teste geral de todos os sistemas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-1-2">
+                                        <label for="testes-1-2">Simulação de situações de emergência</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-1-3">
+                                        <label for="testes-1-3">Verificação de integração entre sistemas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-1-4">
+                                        <label for="testes-1-4">Teste de comunicação com Corpo de Bombeiros</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-1-5">
+                                        <label for="testes-1-5">Medição de tempos de resposta</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 7.2 Aceite Final -->
+                            <div class="subcategory">
+                                <div class="subcategory-header">7.2 Aceite Final</div>
+                                <div class="items-container">
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-2-1">
+                                        <label for="testes-2-1">Vistoria final do Corpo de Bombeiros</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-2-2">
+                                        <label for="testes-2-2">Emissão do Auto de Vistoria do Corpo de Bombeiros (AVCB)</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-2-3">
+                                        <label for="testes-2-3">Entrega de toda documentação</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-2-4">
+                                        <label for="testes-2-4">Termo de aceite assinado</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                    <div class="checklist-item">
+                                        <input type="checkbox" id="testes-2-5">
+                                        <label for="testes-2-5">Garantias dos equipamentos ativadas</label>
+                                        <textarea placeholder="Observações..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Função para renderizar o checklist no container
+            function renderChecklist(html) {
+                checklistContainer.innerHTML = html;
+                
+                // Configura os acordeões após renderizar
+                setupAccordions();
+            }
+            
+            // Função para configurar os acordeões
+            function setupAccordions() {
+                const categoryHeaders = document.querySelectorAll('.category-header');
+                const subcategoryHeaders = document.querySelectorAll('.subcategory-header');
+                
+                categoryHeaders.forEach(header => {
+                    header.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        const itemsContainer = this.nextElementSibling;
+                        itemsContainer.classList.toggle('active');
+                    });
+                });
+                
+                subcategoryHeaders.forEach(header => {
+                    header.addEventListener('click', function() {
+                        this.classList.toggle('active');
+                        const itemsContainer = this.nextElementSibling;
+                        itemsContainer.classList.toggle('active');
+                    });
+                });
+            }
+            
+            // Função para configurar os eventos do checklist
+            function setupChecklistEvents(locationKey) {
+                const checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
+                const textareas = checklistContainer.querySelectorAll('textarea');
+                
+                // Armazena referências aos elementos
+                checklistData[locationKey].checkboxes = {};
+                checklistData[locationKey].textareas = {};
+                
+                checkboxes.forEach((checkbox, index) => {
+                    const id = checkbox.id;
+                    checklistData[locationKey].checkboxes[id] = checkbox;
+                    
+                    checkbox.addEventListener('change', function() {
+                        // Atualiza o progresso
+                        updateProgress();
+                    });
+                });
+                
+                textareas.forEach((textarea, index) => {
+                    const id = textarea.previousElementSibling.previousElementSibling.id;
+                    checklistData[locationKey].textareas[id] = textarea;
+                    
+                    textarea.addEventListener('input', function() {
+                        // Pode adicionar lógica adicional se necessário
+                    });
+                });
+            }
+            
+            // Função para restaurar o estado do checklist
+            function restoreChecklistState(locationKey) {
+                const data = checklistData[locationKey];
+                
+                // Configura os acordeões
+                setupAccordions();
+                
+                // Configura os eventos
+                setupChecklistEvents(locationKey);
+                
+                // Atualiza o progresso
+                updateProgress();
+            }
+            
+            // Função para atualizar a barra de progresso
+            function updateProgress() {
+                const selectedPavimento = pavimentoSelect.value;
+                const selectedBloco = blocoSelect.value;
+                
+                if (!selectedPavimento || !selectedBloco) {
+                    document.getElementById('progress-bar').style.width = '0%';
+                    document.getElementById('progress-text').textContent = '0% Completo';
+                    return;
+                }
+                
+                const locationKey = `${selectedPavimento}_${selectedBloco}`;
+                const data = checklistData[locationKey];
+                
+                if (!data) return;
+                
+                const checkboxes = Object.values(data.checkboxes);
+                const totalItems = checkboxes.length;
+                const checkedItems = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+                const progressPercentage = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+                
+                document.getElementById('progress-bar').style.width = progressPercentage + '%';
+                document.getElementById('progress-text').textContent = progressPercentage + '% Completo';
+            }
             
             // Botão de reset
             document.getElementById('reset-btn').addEventListener('click', function() {
-                if (confirm('Tem certeza que deseja limpar todo o checklist? Esta ação não pode ser desfeita.')) {
-                    checkboxes.forEach(checkbox => {
+                const selectedPavimento = pavimentoSelect.value;
+                const selectedBloco = blocoSelect.value;
+                
+                if (!selectedPavimento || !selectedBloco) {
+                    alert('Selecione um pavimento e bloco primeiro.');
+                    return;
+                }
+                
+                if (confirm('Tem certeza que deseja limpar o checklist deste bloco? Esta ação não pode ser desfeita.')) {
+                    const locationKey = `${selectedPavimento}_${selectedBloco}`;
+                    const data = checklistData[locationKey];
+                    
+                    // Reseta todos os checkboxes
+                    Object.values(data.checkboxes).forEach(checkbox => {
                         checkbox.checked = false;
                     });
                     
-                    const textareas = document.querySelectorAll('textarea');
-                    textareas.forEach(textarea => {
+                    // Reseta todos os textareas
+                    Object.values(data.textareas).forEach(textarea => {
                         textarea.value = '';
                     });
                     
+                    // Atualiza o progresso
                     updateProgress();
                 }
             });
@@ -1141,119 +1390,67 @@
             // Botão de exportar relatório
             document.getElementById('export-btn').addEventListener('click', exportReport);
             
-            // Configura a data atual como padrão
-            const today = new Date();
-            const formattedDate = today.toISOString().substr(0, 10);
-            document.getElementById('inspection-date').value = formattedDate;
-            
-            // Função para atualizar a barra de progresso
-            function updateProgress() {
-                const totalItems = checkboxes.length;
-                const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
-                const progressPercentage = Math.round((checkedItems / totalItems) * 100);
-                
-                document.getElementById('progress-bar').style.width = progressPercentage + '%';
-                document.getElementById('progress-text').textContent = progressPercentage + '% Completo';
-                
-                // Atualiza indicadores de status nas categorias e subcategorias
-                updateCategoryStatusIndicators();
-            }
-            
-            // Função para atualizar os indicadores de status nas categorias e subcategorias
-            function updateCategoryStatusIndicators() {
-                // Remove todos os indicadores existentes
-                const existingIndicators = document.querySelectorAll('.status-indicator');
-                existingIndicators.forEach(indicator => indicator.remove());
-                
-                // Atualiza indicadores para categorias principais
-                document.querySelectorAll('.category').forEach(category => {
-                    const categoryCheckboxes = category.querySelectorAll('input[type="checkbox"]');
-                    const totalInCategory = categoryCheckboxes.length;
-                    const checkedInCategory = category.querySelectorAll('input[type="checkbox"]:checked').length;
-                    
-                    const categoryHeader = category.querySelector('.category-header');
-                    const statusIndicator = document.createElement('span');
-                    statusIndicator.className = 'status-indicator';
-                    
-                    if (checkedInCategory === totalInCategory && totalInCategory > 0) {
-                        statusIndicator.classList.add('completed');
-                    } else if (checkedInCategory > 0) {
-                        statusIndicator.classList.add('partial');
-                    }
-                    
-                    categoryHeader.appendChild(statusIndicator);
-                });
-                
-                // Atualiza indicadores para subcategorias
-                document.querySelectorAll('.subcategory').forEach(subcategory => {
-                    const subcategoryCheckboxes = subcategory.querySelectorAll('input[type="checkbox"]');
-                    const totalInSubcategory = subcategoryCheckboxes.length;
-                    const checkedInSubcategory = subcategory.querySelectorAll('input[type="checkbox"]:checked').length;
-                    
-                    const subcategoryHeader = subcategory.querySelector('.subcategory-header');
-                    const statusIndicator = document.createElement('span');
-                    statusIndicator.className = 'status-indicator';
-                    
-                    if (checkedInSubcategory === totalInSubcategory && totalInSubcategory > 0) {
-                        statusIndicator.classList.add('completed');
-                    } else if (checkedInSubcategory > 0) {
-                        statusIndicator.classList.add('partial');
-                    }
-                    
-                    subcategoryHeader.appendChild(statusIndicator);
-                });
-            }
-            
-            // Função para exportar o relatório
+            // Função para exportar o relatório completo
             function exportReport() {
                 const clientName = document.getElementById('client-name').value || 'Não informado';
                 const inspectorName = document.getElementById('inspector-name').value || 'Não informado';
                 const inspectionDate = document.getElementById('inspection-date').value || 'Não informada';
-                
-                const totalItems = checkboxes.length;
-                const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
-                const progressPercentage = Math.round((checkedItems / totalItems) * 100);
                 
                 let reportContent = `RELATÓRIO DE COMISSIONAMENTO - SISTEMA DE COMBATE A INCÊNDIO EM HOSPITAL\n`;
                 reportContent += `Data: ${new Date().toLocaleDateString()}\n\n`;
                 reportContent += `Cliente/Órgão: ${clientName}\n`;
                 reportContent += `Inspetor Responsável: ${inspectorName}\n`;
                 reportContent += `Data da Inspeção: ${inspectionDate}\n\n`;
-                reportContent += `Progresso Geral: ${progressPercentage}% (${checkedItems} de ${totalItems} itens verificados)\n\n`;
                 reportContent += `----------------------------------------\n\n`;
                 
-                // Adiciona detalhes por categoria
-                document.querySelectorAll('.category').forEach(category => {
-                    const categoryName = category.querySelector('.category-header').textContent.trim();
-                    reportContent += `\n${categoryName}\n`;
-                    reportContent += `----------------------------------------\n`;
-                    
-                    category.querySelectorAll('.subcategory').forEach(subcategory => {
-                        const subcategoryName = subcategory.querySelector('.subcategory-header').textContent.trim();
-                        reportContent += `\n${subcategoryName}\n`;
+                // Calcula o progresso geral
+                let totalItemsAll = 0;
+                let checkedItemsAll = 0;
+                
+                // Adiciona detalhes por localização
+                for (const locationKey in checklistData) {
+                    if (checklistData.hasOwnProperty(locationKey)) {
+                        const [pavimento, bloco] = locationKey.split('_');
+                        const blocoNome = pavimentos[pavimento][parseInt(bloco.replace('bloco', '')) - 1];
                         
-                        subcategory.querySelectorAll('.checklist-item').forEach(item => {
-                            const checkbox = item.querySelector('input[type="checkbox"]');
-                            const label = item.querySelector('label').textContent.trim();
-                            const notes = item.querySelector('textarea').value.trim();
-                            
-                            const status = checkbox.checked ? '[X]' : '[ ]';
-                            reportContent += `${status} ${label}\n`;
-                            
-                            if (notes) {
-                                reportContent += `Observações: ${notes}\n`;
+                        const data = checklistData[locationKey];
+                        const checkboxes = Object.values(data.checkboxes);
+                        const totalItems = checkboxes.length;
+                        const checkedItems = checkboxes.filter(checkbox => checkbox.checked).length;
+                        
+                        totalItemsAll += totalItems;
+                        checkedItemsAll += checkedItems;
+                        
+                        const progressPercentage = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+                        
+                        reportContent += `\n${pavimentoNomes[pavimento]} - ${blocoNome}\n`;
+                        reportContent += `Progresso: ${progressPercentage}% (${checkedItems} de ${totalItems} itens verificados)\n`;
+                        reportContent += `----------------------------------------\n`;
+                        
+                        // Adiciona itens verificados
+                        checkboxes.forEach(checkbox => {
+                            if (checkbox.checked) {
+                                const label = checkbox.nextElementSibling.textContent.trim();
+                                const textareaId = checkbox.id;
+                                const notes = data.textareas[textareaId] ? data.textareas[textareaId].value.trim() : '';
+                                
+                                reportContent += `[X] ${label}\n`;
+                                if (notes) {
+                                    reportContent += `  Observações: ${notes}\n`;
+                                }
                             }
                         });
-                    });
-                    
-                    reportContent += `\n`;
-                });
+                        
+                        reportContent += `\n`;
+                    }
+                }
                 
-                // Adiciona resumo
-                reportContent += `\nRESUMO:\n`;
+                // Adiciona resumo geral
+                const overallProgress = totalItemsAll > 0 ? Math.round((checkedItemsAll / totalItemsAll) * 100) : 0;
+                reportContent += `\nRESUMO GERAL:\n`;
                 reportContent += `----------------------------------------\n`;
-                reportContent += `Itens verificados: ${checkedItems} de ${totalItems}\n`;
-                reportContent += `Progresso geral: ${progressPercentage}%\n\n`;
+                reportContent += `Total de itens verificados: ${checkedItemsAll} de ${totalItemsAll}\n`;
+                reportContent += `Progresso geral: ${overallProgress}%\n\n`;
                 reportContent += `Observações finais: \n`;
                 
                 // Cria um blob com o conteúdo e faz o download
@@ -1267,9 +1464,6 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
             }
-            
-            // Inicializa o progresso
-            updateProgress();
         });
     </script>
 </body>
